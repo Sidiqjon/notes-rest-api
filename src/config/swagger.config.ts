@@ -1,16 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 
-/**
- * Swagger/OpenAPI configuration
- * 
- * WHY SWAGGER:
- * - Auto-generated API documentation
- * - Interactive testing interface
- * - Clear API contract for frontend developers
- * - Professional presentation
- * - Industry standard
- */
-
 const swaggerOptions: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
@@ -18,26 +7,9 @@ const swaggerOptions: swaggerJsdoc.Options = {
       title: 'Notes API - DanAds Internship Task',
       version: '1.0.0',
       description: `
-        A RESTful API for managing notes with full CRUD operations.
-        
-        **Features:**
-        - Create, read, update, and delete notes
-        - Pagination support for listing notes
-        - Keyword search in titles and content
-        - Input validation with detailed error messages
-        - Centralized error handling
-        - Timestamps in Uzbekistan timezone (UTC+5)
-        
-        **Technical Stack:**
-        - Node.js + Express
-        - TypeScript
-        - express-validator for validation
-        - Swagger for documentation
-      `,
-      contact: {
-        name: 'Your Name',
-        email: 'your.email@example.com'
-      }
+          A RESTful API for managing notes with full CRUD operations, pagination, keyword search, input validation, and centralized error handling.
+          Built with Node.js, Express, and TypeScript.
+      `
     },
     servers: [
       {
@@ -65,8 +37,8 @@ const swaggerOptions: swaggerJsdoc.Options = {
                   $ref: '#/components/schemas/CreateNoteDto'
                 },
                 example: {
-                  title: 'Meeting Notes',
-                  content: 'Discussed Q4 goals and project timeline'
+                  title: 'DanAds Internship Task',
+                  content: 'Complete Notes API project with full CRUD operations.'
                 }
               }
             }
@@ -212,7 +184,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
                   $ref: '#/components/schemas/UpdateNoteDto'
                 },
                 example: {
-                  title: 'Updated Meeting Notes'
+                  title: 'Updated DanAds Internship Task'
                 }
               }
             }
@@ -333,7 +305,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
               type: 'string',
               maxLength: 10000,
               description: 'Note content (max 10000 characters)',
-              example: 'Discussed Q4 goals and project timeline'
+              example: 'Discussed project timeline'
             }
           }
         },
@@ -352,7 +324,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
               type: 'string',
               maxLength: 10000,
               description: 'Updated note content (optional)',
-              example: 'Updated content with new information'
+              example: 'Discussed project timeline and business growth'
             }
           }
         },

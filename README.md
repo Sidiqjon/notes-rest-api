@@ -430,8 +430,8 @@ curl -X DELETE http://localhost:3000/api/notes/YOUR_NOTE_ID
 
 ## 👤 Author
 
-**Your Name**  
-DanAds Global Software Internship Program - 2024
+Sidiqjon Yusufjanov  
+DanAds Global Software Internship Program - 2025
 
 ## 📄 License
 

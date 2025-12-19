@@ -1,15 +1,6 @@
 import { body, param, query, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
-/**
- * Validation middleware to check for validation errors
- * Returns 400 with detailed error messages if validation fails
- * 
- * WHY THIS PATTERN:
- * - Centralizes validation error handling
- * - Provides consistent error format across all endpoints
- * - Returns meaningful messages to help API consumers
- */
 export const handleValidationErrors = (
   req: Request,
   res: Response,
@@ -32,14 +23,6 @@ export const handleValidationErrors = (
   next();
 };
 
-/**
- * Validation rules for creating a new note
- * 
- * DESIGN DECISIONS:
- * - title: 3-100 chars - ensures meaningful titles, prevents abuse
- * - content: 0-10000 chars - allows empty notes, caps at reasonable length
- * - Both trimmed to prevent whitespace-only submissions
- */
 export const validateCreateNote = [
   body('title')
     .trim()
@@ -60,14 +43,6 @@ export const validateCreateNote = [
   handleValidationErrors
 ];
 
-/**
- * Validation rules for updating a note
- * 
- * WHY OPTIONAL:
- * - Supports partial updates (PATCH semantics)
- * - Users can update just title or just content
- * - At least one field required to prevent empty updates
- */
 export const validateUpdateNote = [
   param('id')
     .trim()
@@ -92,8 +67,7 @@ export const validateUpdateNote = [
     .isLength({ max: 10000 })
     .withMessage('Content must not exceed 10000 characters'),
   
-  // Custom validator to ensure at least one field is provided
-  body().custom((value, { req }) => {
+  body().custom((_value, { req }) => {
     if (!req.body.title && !req.body.content) {
       throw new Error('At least one field (title or content) must be provided');
     }
@@ -103,10 +77,6 @@ export const validateUpdateNote = [
   handleValidationErrors
 ];
 
-/**
- * Validation rules for note ID parameter
- * Used in GET, DELETE operations
- */
 export const validateNoteId = [
   param('id')
     .trim()
@@ -118,14 +88,6 @@ export const validateNoteId = [
   handleValidationErrors
 ];
 
-/**
- * Validation rules for query parameters (pagination & search)
- * 
- * DESIGN DECISIONS:
- * - page: min 1, defaults handled in service layer
- * - limit: 1-100, prevents excessive data transfer
- * - search: optional, max 100 chars to prevent abuse
- */
 export const validateQueryParams = [
   query('page')
     .optional()
