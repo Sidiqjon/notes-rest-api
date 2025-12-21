@@ -1,12 +1,12 @@
-import { body, param, query, validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { body, param, query, validationResult } from 'express-validator'
+import { Request, Response, NextFunction } from 'express'
 
 export const handleValidationErrors = (
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  const errors = validationResult(req);
+  const errors = validationResult(req)
   
   if (!errors.isEmpty()) {
     res.status(400).json({
@@ -16,12 +16,12 @@ export const handleValidationErrors = (
         message: err.msg,
         value: err.type === 'field' ? err.value : undefined
       }))
-    });
-    return;
+    })
+    return
   }
   
-  next();
-};
+  next()
+}
 
 export const validateCreateNote = [
   body('title')
@@ -41,7 +41,7 @@ export const validateCreateNote = [
     .withMessage('Content must not exceed 10000 characters'),
   
   handleValidationErrors
-];
+]
 
 export const validateUpdateNote = [
   param('id')
@@ -69,13 +69,13 @@ export const validateUpdateNote = [
   
   body().custom((_value, { req }) => {
     if (!req.body.title && !req.body.content) {
-      throw new Error('At least one field (title or content) must be provided');
+      throw new Error('At least one field (title or content) must be provided')
     }
-    return true;
+    return true
   }),
   
   handleValidationErrors
-];
+]
 
 export const validateNoteId = [
   param('id')
@@ -86,7 +86,7 @@ export const validateNoteId = [
     .withMessage('Invalid note ID format'),
   
   handleValidationErrors
-];
+]
 
 export const validateQueryParams = [
   query('page')
@@ -110,4 +110,4 @@ export const validateQueryParams = [
     .withMessage('Search must be a string'),
   
   handleValidationErrors
-];
+]

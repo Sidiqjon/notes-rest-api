@@ -2,11 +2,11 @@
   "name": "notes-api",
   "version": "1.0.0",
   "description": "RESTful API for managing notes - DanAds Internship Task",
-  "main": "dist/server.js",
+  "main": "dist/app.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/app.js",
     "test": "echo \"No tests specified yet\""
   },
   "keywords": ["notes", "api", "rest", "typescript", "express"],

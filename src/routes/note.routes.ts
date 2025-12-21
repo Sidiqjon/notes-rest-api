@@ -1,42 +1,22 @@
-import { Router } from 'express';
-import * as noteController from '../controllers/note.controller';
+import { Router } from 'express'
+import * as noteController from '../controllers/note.controller'
 import {
   validateCreateNote,
   validateUpdateNote,
   validateNoteId,
   validateQueryParams
-} from '../validators/note.validator';
+} from '../validators/note.validator'
 
-const router = Router();
+const router = Router()
 
-router.post(
-  '/',
-  validateCreateNote,
-  noteController.createNote
-);
+router.post('/', validateCreateNote, noteController.createNote)
 
-router.get(
-  '/',
-  validateQueryParams,
-  noteController.getAllNotes
-);
+router.get('/', validateQueryParams, noteController.getAllNotes)
 
-router.get(
-  '/:id',
-  validateNoteId,
-  noteController.getNoteById
-);
+router.get('/:id', validateNoteId, noteController.getNoteById)
 
-router.patch(
-  '/:id',
-  validateUpdateNote,
-  noteController.updateNote
-);
+router.patch('/:id', validateUpdateNote, noteController.updateNote)
 
-router.delete(
-  '/:id',
-  validateNoteId,
-  noteController.deleteNote
-);
+router.delete('/:id', validateNoteId, noteController.deleteNote)
 
-export default router;
+export default router
