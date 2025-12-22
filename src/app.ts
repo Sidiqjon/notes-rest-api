@@ -9,12 +9,12 @@ const app: Application = express()
 const PORT = process.env.PORT || 3000
 
 app.use(cors({
-  origin: '*',
+  origin: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
-// app.options('*', cors());
+app.options('*', cors());
 
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
