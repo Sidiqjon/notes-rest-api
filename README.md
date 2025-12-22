@@ -2,11 +2,8 @@
 
 > A RESTful API for managing notes with full CRUD operations, pagination, and keyword search.
 
-[![API Documentation](https://img.shields.io/badge/API-Documentation-blue)](YOUR_RENDER_URL/api-docs)
-[![Local Docs](https://img.shields.io/badge/Local-Swagger-green)](http://localhost:3000/api-docs)
-
-**Live API**: `YOUR_RENDER_URL` _(Add after deployment)_  
-**Swagger Docs**: [YOUR_RENDER_URL/api-docs](YOUR_RENDER_URL/api-docs) | [localhost:3000/api-docs](http://localhost:3000/api-docs)
+**Live API**:   
+**Swagger Docs**: 
 
 ---
 
