@@ -11,12 +11,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
           Built with Node.js, Express, and TypeScript.
       `
     },
-    servers: [
-      {
-        url: '/',
-        description: 'API Server'
-      }
-    ],
     tags: [
       {
         name: 'Notes',
