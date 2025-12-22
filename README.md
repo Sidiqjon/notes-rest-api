@@ -1,271 +1,204 @@
-# Notes API - DanAds Internship Task
+# Notes API
 
-A professional RESTful API for managing notes, built with Node.js, Express, and TypeScript.
+> A RESTful API for managing notes with full CRUD operations, pagination, and keyword search.
 
-## 🎯 Project Overview
+[![API Documentation](https://img.shields.io/badge/API-Documentation-blue)](YOUR_RENDER_URL/api-docs)
+[![Local Docs](https://img.shields.io/badge/Local-Swagger-green)](http://localhost:3000/api-docs)
 
-This project implements a complete CRUD (Create, Read, Update, Delete) API for note management with advanced features including pagination, search, input validation, and comprehensive error handling.
+**Live API**: `YOUR_RENDER_URL` _(Add after deployment)_  
+**Swagger Docs**: [YOUR_RENDER_URL/api-docs](YOUR_RENDER_URL/api-docs) | [localhost:3000/api-docs](http://localhost:3000/api-docs)
 
-### Key Features
+---
 
-- ✅ **Full CRUD Operations** - Create, read, update, and delete notes
-- ✅ **Input Validation** - Robust validation using express-validator
-- ✅ **Pagination** - Efficient data handling for large datasets
-- ✅ **Search Functionality** - Keyword search in titles and content
-- ✅ **Centralized Error Handling** - Consistent error responses across all endpoints
-- ✅ **Swagger Documentation** - Interactive API documentation
-- ✅ **TypeScript** - Full type safety and modern JavaScript features
-- ✅ **Clean Architecture** - Separation of concerns (routes → controllers → services)
+## Features
 
-## 🏗️ Project Structure
+- ✅ **Full CRUD Operations** - Create, Read, Update, Delete notes
+- 🔍 **Keyword Search** - Search notes by title or content
+- 📄 **Pagination** - Efficient data retrieval with configurable page size
+- ✔️ **Input Validation** - Comprehensive validation using express-validator
+- 🛡️ **Error Handling** - Centralized error management with meaningful messages
+- 📚 **API Documentation** - Interactive Swagger/OpenAPI documentation
+- 💾 **JSON File Storage** - Simple file-based persistence
+- 🔐 **CORS Enabled** - Cross-origin resource sharing support
 
-```
-notes-api/
-│
-├── src/
-│   ├── app.ts                    # Express application setup
-│   ├── server.ts                 # Server entry point
-│   │
-│   ├── routes/
-│   │   └── note.routes.ts        # API route definitions
-│   │
-│   ├── controllers/
-│   │   └── note.controller.ts    # HTTP request handlers
-│   │
-│   ├── services/
-│   │   └── note.service.ts       # Business logic layer
-│   │
-│   ├── validators/
-│   │   └── note.validator.ts     # Request validation rules
-│   │
-│   ├── middlewares/
-│   │   └── error.middleware.ts   # Centralized error handling
-│   │
-│   ├── types/
-│   │   └── note.ts              # TypeScript interfaces & types
-│   │
-│   ├── utils/
-│   │   └── file.helper.ts       # File I/O utilities
-│   │
-│   ├── config/
-│   │   └── swagger.config.ts    # Swagger/OpenAPI configuration
-│   │
-│   └── data/
-│       └── notes.json           # Data storage (JSON file)
-│
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+---
 
-## 🚀 Getting Started
+## Tech Stack
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Language**: TypeScript
+- **Validation**: express-validator
+- **Documentation**: Swagger UI / OpenAPI 3.0
+- **Storage**: JSON file system
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v14 or higher)
 - npm or yarn
 
 ### Installation
 
-1. **Clone or download the project**
+1. **Clone the repository**
+   ```bash
+   git clone <your-repository-url>
+   cd notes-api
+   ```
 
 2. **Install dependencies**
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-3. **Run the development server**
-```bash
-npm run dev
-```
+3. **Configure environment variables**
+   ```bash
+   # Create .env file in root directory
+   echo "PORT=3000" > .env
+   ```
 
-The server will start on `http://localhost:3000`
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-### Build for Production
+5. **Access the API**
+   - API Base URL: `http://localhost:3000/api/notes`
+   - Swagger Docs: `http://localhost:3000/api-docs`
 
-```bash
-npm run build
-npm start
-```
+---
 
-## 📚 API Endpoints
-
-### Base URL
-```
-http://localhost:3000/api/notes
-```
-
-### Endpoints Overview
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/notes` | Create a new note |
-| GET | `/notes` | Get all notes (with pagination & search) |
-| GET | `/notes/:id` | Get a single note by ID |
-| PATCH | `/notes/:id` | Update an existing note (partial update) |
-| DELETE | `/notes/:id` | Delete a note |
+| `POST` | `/api/notes` | Create a new note |
+| `GET` | `/api/notes` | Get all notes (with pagination & search) |
+| `GET` | `/api/notes/:id` | Get a single note by ID |
+| `PATCH` | `/api/notes/:id` | Update a note (partial update) |
+| `DELETE` | `/api/notes/:id` | Delete a note |
 
-### Detailed API Documentation
+### Example Requests
 
-#### 1. Create Note
-```http
+#### Create a Note
+```bash
+curl -X POST http://localhost:3000/api/notes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Meeting Notes",
+    "content": "Discussed project timeline and deliverables"
+  }'
+```
+
+#### Get All Notes with Pagination
+```bash
+curl "http://localhost:3000/api/notes?page=1&limit=10&search=meeting"
+```
+
+#### Update a Note
+```bash
+curl -X PATCH http://localhost:3000/api/notes/<note-id> \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Updated Meeting Notes"}'
+```
+
+---
+
+## Request/Response Examples
+
+### Create Note
+
+**Request:**
+```json
 POST /api/notes
-Content-Type: application/json
-
 {
-  "title": "Meeting Notes",
-  "content": "Discussed Q4 goals and project timeline"
+  "title": "Project Ideas",
+  "content": "Brainstorming session results"
 }
 ```
 
-**Response (201 Created)**
+**Response:** `201 Created`
 ```json
 {
   "message": "Note created successfully",
   "data": {
     "id": "123e4567-e89b-12d3-a456-426614174000",
-    "title": "Meeting Notes",
-    "content": "Discussed Q4 goals and project timeline",
-    "createdAt": "2024-12-18T15:30:00.000Z",
-    "updatedAt": "2024-12-18T15:30:00.000Z"
+    "title": "Project Ideas",
+    "content": "Brainstorming session results",
+    "createdAt": "2024-12-22T10:30:00.000Z",
+    "updatedAt": "2024-12-22T10:30:00.000Z"
   }
 }
 ```
 
-**Note:** All timestamps are in Uzbekistan timezone (UTC+5)
+### Get All Notes
 
-#### 2. Get All Notes (with Pagination & Search)
-```http
-GET /api/notes?page=1&limit=10&search=meeting
+**Request:**
+```bash
+GET /api/notes?page=1&limit=10&search=project
 ```
 
-**Query Parameters**
-- `page` (optional) - Page number (default: 1)
-- `limit` (optional) - Items per page (default: 10, max: 100)
-- `search` (optional) - Search keyword in title/content
-
-**Response (200 OK)**
+**Response:** `200 OK`
 ```json
 {
   "message": "Notes retrieved successfully",
   "data": [
     {
       "id": "123e4567-e89b-12d3-a456-426614174000",
-      "title": "Meeting Notes",
-      "content": "Discussed Q4 goals",
-      "createdAt": "2024-12-18T15:30:00.000Z",
-      "updatedAt": "2024-12-18T15:30:00.000Z"
+      "title": "Project Ideas",
+      "content": "Brainstorming session results",
+      "createdAt": "2024-12-22T10:30:00.000Z",
+      "updatedAt": "2024-12-22T10:30:00.000Z"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 50,
-    "totalPages": 5
+    "total": 1,
+    "totalPages": 1
   }
 }
 ```
 
-#### 3. Get Single Note
-```http
-GET /api/notes/123e4567-e89b-12d3-a456-426614174000
-```
+---
 
-**Response (200 OK)**
-```json
-{
-  "message": "Note retrieved successfully",
-  "data": {
-    "id": "123e4567-e89b-12d3-a456-426614174000",
-    "title": "Meeting Notes",
-    "content": "Discussed Q4 goals",
-    "createdAt": "2024-12-18T15:30:00.000Z",
-    "updatedAt": "2024-12-18T15:30:00.000Z"
-  }
-}
-```
-
-#### 4. Update Note (Partial Update)
-```http
-PATCH /api/notes/123e4567-e89b-12d3-a456-426614174000
-Content-Type: application/json
-
-{
-  "title": "Updated Meeting Notes"
-}
-```
-
-**Note:** You can update `title`, `content`, or both. At least one field is required. This is a PATCH request (partial update), not PUT (full replacement).
-
-**Response (200 OK)**
-```json
-{
-  "message": "Note updated successfully",
-  "data": {
-    "id": "123e4567-e89b-12d3-a456-426614174000",
-    "title": "Updated Meeting Notes",
-    "content": "Discussed Q4 goals",
-    "createdAt": "2024-12-18T15:30:00.000Z",
-    "updatedAt": "2024-12-18T16:00:00.000Z"
-  }
-}
-```
-
-#### 5. Delete Note
-```http
-DELETE /api/notes/123e4567-e89b-12d3-a456-426614174000
-```
-
-**Response (200 OK)**
-```json
-{
-  "message": "Note deleted successfully",
-  "data": {
-    "id": "123e4567-e89b-12d3-a456-426614174000",
-    "title": "Meeting Notes",
-    "content": "Discussed Q4 goals",
-    "createdAt": "2024-12-18T15:30:00.000Z",
-    "updatedAt": "2024-12-18T15:30:00.000Z"
-  }
-}
-```
-
-## 🔒 Validation Rules
+## Validation Rules
 
 ### Create Note
-- `title`: Required, 3-100 characters, string
-- `content`: Optional, max 10,000 characters, string
+- `title`: Required, 3-100 characters
+- `content`: Optional, max 10,000 characters
 
 ### Update Note
-- `title`: Optional, 3-100 characters, string
-- `content`: Optional, max 10,000 characters, string
+- `title`: Optional, 3-100 characters
+- `content`: Optional, max 10,000 characters
 - At least one field must be provided
-- Uses PATCH method for partial updates
 
 ### Query Parameters
-- `page`: Must be positive integer
-- `limit`: Must be 1-100
-- `search`: Max 100 characters
+- `page`: Optional, positive integer (default: 1)
+- `limit`: Optional, 1-100 (default: 10)
+- `search`: Optional, max 100 characters
 
-## ❌ Error Handling
+---
 
-All errors return JSON responses with appropriate HTTP status codes:
+## Error Responses
 
-### Validation Error (400)
+### Validation Error
 ```json
 {
   "error": "Validation failed",
   "details": [
     {
       "field": "title",
-      "message": "Title must be between 3 and 100 characters",
-      "value": "ab"
+      "message": "Title must be between 3 and 100 characters"
     }
   ]
 }
 ```
 
-### Not Found Error (404)
+### Not Found Error
 ```json
 {
   "error": "Note with id 123 not found",
@@ -273,7 +206,7 @@ All errors return JSON responses with appropriate HTTP status codes:
 }
 ```
 
-### Internal Server Error (500)
+### Internal Server Error
 ```json
 {
   "error": "Internal Server Error",
@@ -282,161 +215,107 @@ All errors return JSON responses with appropriate HTTP status codes:
 }
 ```
 
-## 📖 Interactive Documentation
+---
 
-Access the Swagger UI documentation at:
+## Project Structure
+
 ```
-http://localhost:3000/api-docs
+notes-api/
+├── src/
+│   ├── config/
+│   │   └── swagger.config.ts      # Swagger/OpenAPI configuration
+│   ├── controllers/
+│   │   └── note.controller.ts     # Request handlers
+│   ├── data/
+│   │   └── notes.json             # JSON file storage
+│   ├── middlewares/
+│   │   └── error.middleware.ts    # Error handling middleware
+│   ├── routes/
+│   │   └── note.routes.ts         # API routes
+│   ├── services/
+│   │   └── note.service.ts        # Business logic
+│   ├── types/
+│   │   └── note.ts                # TypeScript interfaces
+│   ├── utils/
+│   │   └── file.helper.ts         # File operations
+│   ├── validators/
+│   │   └── note.validator.ts      # Input validation
+│   └── app.ts                     # Application entry point
+├── .env                           # Environment variables
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-Features:
-- Interactive API testing
-- Request/response examples
-- Schema definitions
-- Try-it-out functionality
+---
 
-## 🏗️ Architecture
+## Available Scripts
 
-### Request Flow
-```
-Request → Routes → Validators → Controllers → Services → Utils → Storage
-                                                                    ↓
-Response ← Controllers ← Services ← Utils ← Storage ← File System
-```
-
-### Layer Responsibilities
-
-1. **Routes** - Define API endpoints and attach middleware
-2. **Validators** - Validate request data before processing
-3. **Controllers** - Handle HTTP requests/responses
-4. **Services** - Contain business logic
-5. **Utils** - Helper functions (file I/O)
-6. **Middlewares** - Cross-cutting concerns (errors, logging)
-
-## 🧪 Testing the API
-
-### Using cURL
-
-**Create a note:**
 ```bash
-curl -X POST http://localhost:3000/api/notes \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Test Note","content":"This is a test"}'
+# Development
+npm run dev          # Start development server with auto-reload
+
+# Production
+npm run build        # Compile TypeScript to JavaScript
+npm start            # Run compiled JavaScript
+
+# Testing
+npm test             # Run tests (not implemented yet)
 ```
 
-**Get all notes:**
-```bash
-curl http://localhost:3000/api/notes
-```
+---
 
-**Get note by ID:**
-```bash
-curl http://localhost:3000/api/notes/YOUR_NOTE_ID
-```
+## Deployment
 
-**Update a note:**
-```bash
-curl -X PATCH http://localhost:3000/api/notes/YOUR_NOTE_ID \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Updated Title"}'
-```
+### Deploy to Render
 
-**Delete a note:**
-```bash
-curl -X DELETE http://localhost:3000/api/notes/YOUR_NOTE_ID
-```
+1. **Push code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
 
-### Using Postman
+2. **Create a new Web Service on Render**
+   - Connect your GitHub repository
+   - Configure build settings:
+     - **Build Command**: `npm install && npm run build`
+     - **Start Command**: `npm start`
+   - Add environment variables:
+     - `PORT`: (Render provides this automatically)
 
-1. Import the API: `http://localhost:3000/api-docs`
-2. Use the Swagger UI to generate requests
-3. Test all endpoints interactively
+3. **Deploy**
+   - Render will automatically build and deploy your application
+   - Access your API at the provided Render URL
 
-## 💡 Technical Decisions
+---
 
-### Why JSON File Storage?
-- Simple and meets requirements (no database needed)
-- Easy to inspect and debug
-- Demonstrates async file I/O handling
-- Production apps would use PostgreSQL/MongoDB
+## Future Enhancements
 
-### Why UUID for IDs?
-- Globally unique, no collision risk
-- URL-safe and JSON-compatible
-- Standard in distributed systems
+- [ ] Add user authentication (JWT)
+- [ ] Implement database integration (PostgreSQL/MongoDB)
+- [ ] Add rate limiting
+- [ ] Implement caching (Redis)
+- [ ] Add unit and integration tests
+- [ ] Add note categories/tags
+- [ ] Implement file attachments
+- [ ] Add export functionality (PDF, Markdown)
 
-### Why ISO 8601 Timestamps in Uzbekistan Time?
-- All timestamps use Uzbekistan timezone (UTC+5)
-- ISO 8601 format is universal and JSON-compatible
-- Easy to parse in any programming language
-- Timezone-aware and prevents confusion
+---
 
-### Why PATCH instead of PUT?
-- PATCH = partial update (only provided fields)
-- PUT = full replacement (all fields required)
-- PATCH is more flexible and user-friendly
-- Follows RESTful best practices for partial updates
-
-### Why Centralized Error Handling?
-- Consistent error format
-- Single place to modify responses
-- Cleaner controllers (no try-catch everywhere)
-- Easy to add logging/monitoring
-
-### Why Service Layer?
-- Separates business logic from HTTP concerns
-- Reusable across different contexts
-- Easier to test independently
-- Follows SOLID principles
-
-## 🚦 Scalability Considerations
-
-### Current Limitations (Under High Load)
-1. **File I/O Race Conditions** - Multiple concurrent writes
-2. **No Caching** - Each request reads from disk
-3. **No Connection Pooling** - Not applicable (file-based)
-4. **Memory Constraints** - All notes loaded into memory
-
-### Production Improvements
-1. **Database** - PostgreSQL with connection pooling
-2. **Redis Caching** - Reduce database queries
-3. **Queue System** - Bull/RabbitMQ for write operations
-4. **Load Balancing** - Horizontal scaling with nginx
-5. **Monitoring** - Prometheus + Grafana
-
-## 📝 Scripts
-
-```json
-{
-  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-  "build": "tsc",
-  "start": "node dist/server.js"
-}
-```
-
-- `npm run dev` - Development with hot reload
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Run production build
-
-## 🛠️ Technologies Used
-
-- **Node.js** - JavaScript runtime
-- **Express** - Web framework
-- **TypeScript** - Type-safe JavaScript
-- **express-validator** - Request validation
-- **uuid** - Unique ID generation
-- **Swagger** - API documentation
-- **cors** - Cross-origin resource sharing
-
-## 👤 Author
-
-Sidiqjon Yusufjanov  
-DanAds Global Software Internship Program - 2025
-
-## 📄 License
+## License
 
 ISC
 
 ---
 
-**Note:** This project was created as part of the DanAds internship selection process to demonstrate REST API development skills, TypeScript proficiency, and software architecture understanding.
+## Author
+
+**Sidiqjon Yusufjanov**
+
+---
+
+## Acknowledgments
+
+Developed as part of the DanAds Internship Task to demonstrate RESTful API development skills with Node.js, Express, and TypeScript.
