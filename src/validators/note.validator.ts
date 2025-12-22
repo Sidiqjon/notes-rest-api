@@ -7,25 +7,37 @@ export const handleValidationErrors = (
   next: NextFunction
 ): void => {
   const errors = validationResult(req)
-
+  
   if (!errors.isEmpty()) {
-    const formattedErrors: Record<string, { field: string; message: string; value?: unknown }> = {}
-
+    const errorMap = new Map<string, { field: string; message: string; value?: unknown }>()
+    
     errors.array().forEach(err => {
-      if (err.type !== 'field') return
-
-      if (!formattedErrors[err.path]) {
-        formattedErrors[err.path] = {
-          field: err.path,
-          message: err.msg,
-          ...(err.value !== undefined && err.value !== '' ? { value: err.value } : {})
+      if (err.type === 'field') {
+        const fieldName = err.path
+        if (!errorMap.has(fieldName)) {
+          errorMap.set(fieldName, {
+            field: fieldName,
+            message: err.msg,
+            ...(err.value !== undefined && err.value !== '' ? { value: err.value } : {})
+          })
+        }
+      } else if (err.type === 'alternative' || err.type === 'alternative_grouped') {
+        return
+      } else {
+        const fieldName = (err as any).path || 'body'
+        if (!errorMap.has(fieldName)) {
+          errorMap.set(fieldName, {
+            field: fieldName,
+            message: err.msg,
+            ...((err as any).value !== undefined ? { value: (err as any).value } : {})
+          })
         }
       }
     })
 
     res.status(400).json({
       error: 'Validation failed',
-      details: Object.values(formattedErrors)
+      details: Array.from(errorMap.values())
     })
     return
   }
@@ -77,12 +89,24 @@ export const validateUpdateNote = [
     .isLength({ max: 10000 })
     .withMessage('Content must not exceed 10000 characters'),
   
-  body().custom((_value, { req }) => {
-    if (!req.body.title && !req.body.content) {
-      throw new Error('At least one field (title or content) must be provided')
+  (req: Request, res: Response, next: NextFunction): void => {
+    const { title, content } = req.body
+    
+    if (Object.keys(req.body).length === 0 || (title === undefined && content === undefined)) {
+      res.status(400).json({
+        error: 'Validation failed',
+        details: [
+          {
+            field: 'body',
+            message: 'At least one field (title or content) must be provided'
+          }
+        ]
+      })
+      return
     }
-    return true
-  }),
+    
+    next()
+  },
   
   handleValidationErrors
 ]
