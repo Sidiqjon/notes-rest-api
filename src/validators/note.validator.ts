@@ -7,15 +7,25 @@ export const handleValidationErrors = (
   next: NextFunction
 ): void => {
   const errors = validationResult(req)
-  
+
   if (!errors.isEmpty()) {
+    const formattedErrors: Record<string, { field: string; message: string; value?: unknown }> = {}
+
+    errors.array().forEach(err => {
+      if (err.type !== 'field') return
+
+      if (!formattedErrors[err.path]) {
+        formattedErrors[err.path] = {
+          field: err.path,
+          message: err.msg,
+          ...(err.value !== undefined && err.value !== '' ? { value: err.value } : {})
+        }
+      }
+    })
+
     res.status(400).json({
       error: 'Validation failed',
-      details: errors.array().map(err => ({
-        field: err.type === 'field' ? err.path : 'unknown',
-        message: err.msg,
-        value: err.type === 'field' ? err.value : undefined
-      }))
+      details: Object.values(formattedErrors)
     })
     return
   }

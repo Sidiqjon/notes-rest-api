@@ -65,7 +65,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
         get: {
           tags: ['Notes'],
           summary: 'Get all notes with pagination and search',
-          description: 'Retrieves a paginated list of notes with optional search functionality',
+          description: 'Retrieves a paginated list of notes with optional keyword-based search in the title or content.',
           parameters: [
             {
               name: 'page',
@@ -112,9 +112,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
                 }
               }
             },
-            '400': {
-              $ref: '#/components/responses/BadRequest'
-            },
             '500': {
               $ref: '#/components/responses/InternalServerError'
             }
@@ -148,9 +145,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
                   }
                 }
               }
-            },
-            '400': {
-              $ref: '#/components/responses/BadRequest'
             },
             '404': {
               $ref: '#/components/responses/NotFound'
@@ -238,9 +232,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
                 }
               }
             },
-            '400': {
-              $ref: '#/components/responses/BadRequest'
-            },
             '404': {
               $ref: '#/components/responses/NotFound'
             },
@@ -274,18 +265,18 @@ const swaggerOptions: swaggerJsdoc.Options = {
               type: 'string',
               maxLength: 10000,
               description: 'Note content',
-              example: 'Discussed Q4 goals and project timeline'
+              example: 'Discussed project structure and deadline'
             },
             createdAt: {
               type: 'string',
               format: 'date-time',
-              description: 'Creation timestamp in Uzbekistan timezone (UTC+5)',
+              description: 'Timestamp when the note was created (ISO 8601 format)',
               example: '2024-12-18T15:30:00.000Z'
             },
             updatedAt: {
               type: 'string',
               format: 'date-time',
-              description: 'Last update timestamp in Uzbekistan timezone (UTC+5)',
+              description: 'Timestamp when the note was last updated (ISO 8601 format)',
               example: '2024-12-18T15:30:00.000Z'
             }
           }
@@ -409,10 +400,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
                     type: 'string',
                     example: 'Title must be between 3 and 100 characters'
                   },
-                  value: {
-                    type: 'string',
-                    example: 'ab'
-                  }
                 }
               }
             }
