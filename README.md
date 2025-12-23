@@ -2,8 +2,8 @@
 
 > A RESTful API for managing notes with full CRUD operations, pagination, and keyword search.
 
-**Live API**:   
-**Swagger Docs**: 
+**Live API**: https://notes-rest-api-0hk9.onrender.com/api-docs 
+**Swagger Docs**: http://localhost:3000/api-docs
 
 ---
 
