@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express'
 import { swaggerSpec } from './config/swagger.config'
 import noteRoutes from './routes/note.routes'
 import { errorHandler, notFoundHandler } from './middlewares/error.middleware'
+import 'dotenv/config'
 
 const app: Application = express()
 const PORT = process.env.PORT || 3000
